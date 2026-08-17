@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nodalis // Waitlist</title>
+<meta name="description" content="Join the Nodalis waiting list. A local-first notes, canvas and knowledge-graph app — plain markdown files on your own disk, a live graph, canvas, board, calendar, priority matrix and daily review. Free forever. Works offline. No account.">
+<meta name="theme-color" content="#f2efe6">
+<link rel="icon" href="https://harshavarthanep.github.io/Nodalis/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="https://harshavarthanep.github.io/Nodalis/icons/icon-180.png">
+<meta property="og:title" content="Nodalis // your knowledge, connected">
+<meta property="og:description" content="A local-first notes, canvas and knowledge-graph app. Free forever. Works offline. No account.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<script>
+(function(){
+  try{
+    var t=localStorage.getItem('ndw-mode');
+    if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');
+  }catch(e){}
+})();
+</script>
+<style>
+/* ============================================================
+   NODALIS — waiting list
+   Theme language: technical schematic / dev-log zine.
+   Monochrome only — cream paper + ink in light, pure black +
+   white in dark. Two fonts: Space Mono (a REAL Nodalis font
+   token) for everything, Archivo Black for the loud headlines.
+============================================================ */
+:root{
+  --bg:#f2efe6; --ink:#12100b; --line:#12100b; --line-soft:#cfc9b8;
+  --muted:#6b6555; --panel:#ffffff;
+  --blue:#2f5fd6; --red:#d92b2b; --green:#1a8a4a;
+  --accent:#6c5ce7; --accent-ink:#ffffff;
+  --r:5px;
+}
+html.dark{
+  --bg:#000000; --ink:#f4f4f2; --line:#f4f4f2; --line-soft:#2a2a2a;
+  --muted:#9b9b93; --panel:#0a0a0a;
+  --blue:#5b8dff; --red:#ff5c5c; --green:#3ecb7e;
+}
+*{box-sizing:border-box}
+svg{flex-shrink:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+section[id]{scroll-margin-top:64px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:15px;line-height:1.65;transition:background .25s,color .25s}
+img{max-width:100%}
+button,input,textarea{font:inherit;color:inherit}
+button{background:none;cursor:pointer;padding:0}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+::selection{background:var(--accent);color:#fff}
+.logo-img{width:100%;height:100%;object-fit:contain;display:block;border-radius:inherit}
+
+.display{font-family:"Archivo Black",Inter,sans-serif;font-weight:400;letter-spacing:-.01em;line-height:.98;text-transform:uppercase}
+.wrap{width:min(1160px,calc(100% - 36px));margin-inline:auto}
+.sec{padding:clamp(46px,7vw,88px) 0;position:relative}
+.upper{text-transform:uppercase}
+.mono-sm{font-size:11px;letter-spacing:.06em}
+
+/* eyebrow: the "// LABEL" convention */
+.eyebrow{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.eyebrow::before{content:"//";color:var(--accent);transition:color .25s}
+
+/* thick full-width divider between sections */
+.divider{height:0;border-top:2px solid var(--line)}
+
+/* boxed / bordered building block used everywhere instead of soft cards */
+.box{border:1.5px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.dot-grid{background-image:radial-gradient(circle,var(--line-soft) 1px,transparent 1.2px);background-size:18px 18px}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:80;background:var(--bg);border-bottom:2px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:18px;min-height:64px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;letter-spacing:.02em}
+/* The app icon already carries its own cream background + rounded corners,
+   so the container stays transparent — filling it would hide the artwork. */
+.brand .mark{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.brand .mark svg{width:17px;height:17px}
+/* Fallback only: if the embedded image can't render, the inline SVG node mark
+   is shown on the accent square instead of an empty box. */
+.brand .mark.logo-fallback{background:var(--accent);color:#fff;padding:5px}
+.nav-links{display:none;align-items:center;gap:0;margin-left:6px;font-size:12px;font-weight:700;letter-spacing:.05em}
+@media(min-width:880px){.nav-links{display:flex}}
+.nav-links a{padding:8px 12px;transition:opacity .15s}
+.nav-links a:hover{opacity:.55}
+.nav-links .sl{color:var(--muted)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{width:34px;height:34px;border:1.5px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:.15s}
+.icon-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.icon-btn svg{width:15px;height:15px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 22px;border:1.5px solid var(--line);border-radius:var(--r);font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;transition:transform .15s,background .15s,color .15s,box-shadow .2s;white-space:nowrap}
+.btn svg{width:14px;height:14px}
+.btn-solid{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 10px 24px -10px rgba(0,0,0,.4)}
+.btn-solid:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 16px 30px -10px rgba(0,0,0,.45)}
+.btn-solid:active{transform:translateY(0) scale(.98);box-shadow:0 6px 14px -8px rgba(0,0,0,.4)}
+html.dark .btn-solid{box-shadow:0 10px 26px -8px rgba(0,0,0,.7)}
+html.dark .btn-solid:hover{box-shadow:0 16px 32px -8px rgba(0,0,0,.75)}
+.btn-line{background:transparent;color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--bg);transform:translateY(-1px)}
+.btn-sm{padding:9px 15px;font-size:11px}
+.btn-block{width:100%}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(26px,4vw,44px) 0 0}
+.hero-tag{font-size:12px;font-weight:700;letter-spacing:.06em}
+.hero-tag b{text-transform:uppercase}
+.hero-sub{font-size:11.5px;color:var(--muted);margin-top:4px;letter-spacing:.04em}
+
+/* schematic panel */
+.schem{margin-top:20px;padding:clamp(16px,3vw,30px) clamp(14px,3vw,26px) clamp(40px,5vw,56px);position:relative;overflow:hidden;min-height:340px}
+.schem-corner{position:absolute;font-size:10.5px;font-weight:700;letter-spacing:.05em;color:var(--muted)}
+.schem-corner.tl{top:14px;left:16px}
+.schem-corner.tr{top:14px;right:16px;text-align:right}
+.schem-corner.bl{bottom:14px;left:16px}
+.schem-corner.br{bottom:14px;right:16px;text-align:right}
+.schem svg{width:100%;height:auto;display:block;margin:0 auto;max-width:640px}
+.schem-line{stroke:var(--line);stroke-width:1.2;fill:none}
+.schem-dash{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3;fill:none}
+.schem-label{font-family:"Space Mono",monospace;font-size:9.5px;fill:var(--muted);letter-spacing:.02em}
+.schem-shape{fill:none;stroke:var(--line);stroke-width:1.4}
+.schem-node{fill:var(--ink)}
+.schem-node.o{fill:var(--bg);stroke:var(--ink);stroke-width:1.3}
+
+.hero-headline{margin:clamp(26px,4vw,40px) 0 0;font-size:clamp(34px,7vw,74px);text-align:center}
+.hero-headline .lede{display:block;font-family:"Space Mono",monospace;text-transform:none;font-weight:400;letter-spacing:0;font-size:clamp(13.5px,1.7vw,16px);color:var(--muted);max-width:56ch;margin:18px auto 0;line-height:1.7}
+
+/* CTA box in hero */
+.cta-box{max-width:480px;margin:28px auto 0;padding:16px;text-align:center}
+.cta-box .lab{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.cta-form{display:flex;flex-direction:column;gap:8px}
+.cta-input{border:1.5px solid var(--line);border-radius:var(--r);padding:13px 14px;background:var(--bg);font-size:13.5px;outline:none;width:100%}
+.cta-input::placeholder{color:var(--muted)}
+.cta-input.bad{border-color:var(--red)}
+.trust-line{margin-top:12px;font-size:10.5px;color:var(--muted);letter-spacing:.02em}
+
+.wl-msg{display:none;gap:8px;align-items:flex-start;margin-top:12px;padding:11px 13px;border:1.5px solid var(--line);border-radius:var(--r);font-size:12px;line-height:1.55;text-align:left}
+.wl-msg.show{display:flex}
+.wl-msg svg{width:14px;height:14px;flex-shrink:0;margin-top:1px}
+.wl-msg.ok{border-color:var(--green);color:var(--green)}
+.wl-msg.dup{border-color:var(--muted);color:var(--ink)}
+.wl-msg.err{border-color:var(--red);color:var(--red)}
+#wlDiag{max-width:480px;margin:8px auto 0;text-align:left}
+#wlDiag summary{font-size:10.5px;color:var(--muted);cursor:pointer}
+#wlDiagText{font-size:10px;color:var(--muted);white-space:pre-wrap;word-break:break-word;margin:6px 0 0;padding:8px 10px;border:1px solid var(--line-soft);border-radius:var(--r)}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* section head */
+.shead2{max-width:680px;margin-bottom:clamp(22px,4vw,36px)}
+.shead2 h2{font-size:clamp(24px,4vw,40px);margin:10px 0 0}
+.shead2 p{margin:12px 0 0;font-size:13.5px;color:var(--muted);max-width:64ch;line-height:1.7}
+.shead2 .row-between{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- feature bento (bordered, sharp) ---------- */
+.bento{display:grid;gap:-1px;grid-template-columns:repeat(6,1fr);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+.btile{grid-column:span 6;padding:22px;position:relative;border:0.75px solid var(--line-soft)}
+@media(min-width:720px){ .btile.w3{grid-column:span 3} .btile.w2{grid-column:span 2} .btile.w4{grid-column:span 4} }
+.btile .bn{position:absolute;top:18px;right:20px;font-size:11px;color:var(--muted)}
+.btile .bi{width:30px;height:30px;border:1.5px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.btile .bi svg{width:16px;height:16px}
+.btile h4{font-family:"Space Mono",monospace;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;margin:0 0 8px}
+.btile p{margin:0;font-size:12.6px;color:var(--muted);line-height:1.65;max-width:44ch}
+.btile code{background:var(--bg);border:1px solid var(--line-soft);border-radius:3px;padding:0 4px}
+
+/* ---------- demo ---------- */
+.demo-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.demo-tab{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border:1.5px solid var(--line);border-radius:var(--r);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);transition:.15s}
+.demo-tab svg{width:13px;height:13px}
+.demo-tab.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 8px 18px -10px rgba(0,0,0,.4)}
+.demo-top{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1.5px solid var(--line)}
+.demo-top .blip{width:7px;height:7px;border-radius:99px;background:var(--blue)}
+.demo-top b{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.demo-top span{font-size:10.5px;color:var(--muted);margin-left:auto}
+.demo-stage{position:relative;height:clamp(340px,52vw,500px);overflow:hidden}
+@media(max-width:640px){.demo-stage{height:min(76vh,600px)}}
+.dscreen{position:absolute;inset:0;display:none;flex-direction:column;padding:20px;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.dscreen.on{display:flex}
+.d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+.d-head .t{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:7px}
+.d-head .t svg{width:14px;height:14px}
+.d-head .hint{font-size:10.5px;color:var(--muted)}
+
+.hcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.hcard{border:1.5px solid var(--line);border-radius:var(--r);padding:13px 14px}
+.hcard .hl{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.hcard .hl svg{width:11px;height:11px}
+.hcard .hv{font-size:24px;font-weight:700}
+.hcard .hs{font-size:10px;color:var(--muted);margin-top:2px}
+.ring-wrap{display:flex;align-items:center;gap:13px;margin-top:12px;padding:13px;border:1.5px solid var(--line);border-radius:var(--r)}
+.ring{width:50px;height:50px;flex-shrink:0}
+.ring circle{fill:none;stroke-width:5}
+.ring .bg{stroke:var(--line-soft)}
+.ring .fg{stroke:var(--accent);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke .25s}
+.streak-copy b{display:block;font-size:12.5px;font-weight:700}
+.streak-copy span{font-size:10.5px;color:var(--muted)}
+
+.gwrap{flex:1;min-height:0;position:relative;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;background-image:radial-gradient(circle,var(--line-soft) 1px,transparent 1.2px);background-size:16px 16px}
+#gSvg,#gSvg2,#gSvgHero{width:100%;height:100%;display:block}
+.gnode{fill:var(--bg);stroke:var(--ink);stroke-width:1.4}
+.gnode.hub{fill:var(--accent);stroke:var(--accent)}
+.gedge{stroke:var(--line-soft);stroke-width:1.1}
+.graph-legend{position:absolute;left:10px;bottom:10px;font-size:9.5px;color:var(--muted);background:var(--bg);border:1px solid var(--line-soft);border-radius:var(--r);padding:5px 9px}
+
+.cvv{flex:1;min-height:0;position:relative;overflow:hidden;border:1.5px solid var(--line);border-radius:var(--r)}
+.cvcard{position:absolute;width:126px;border:1.5px solid var(--line);border-radius:var(--r);background:var(--bg);padding:8px 9px;font-size:10px;line-height:1.4}
+.cvcard .cvl{font-size:8px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
+.cvframe{position:absolute;border:1.5px dashed var(--line);border-radius:var(--r)}
+.cvframe span{position:absolute;top:-9px;left:10px;font-size:8.5px;font-weight:700;padding:1px 7px;border-radius:3px;background:var(--ink);color:var(--bg);text-transform:uppercase}
+
+.kcols{display:flex;gap:10px;height:100%;min-height:0;overflow-x:auto}
+.kcol{flex:1 0 175px;max-width:300px;display:flex;flex-direction:column;border:1.5px solid var(--line);border-radius:var(--r);min-height:0}
+.kcol h4{margin:0;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;display:flex;align-items:center;gap:7px;border-bottom:1.5px solid var(--line)}
+.kcol h4 i{width:6px;height:6px;border-radius:99px;display:inline-block;background:var(--ink)}
+.kcol h4 b{margin-left:auto;font-size:9px}
+.kbody{flex:1;overflow:auto;padding:9px;display:flex;flex-direction:column;gap:8px}
+.kcard{border:1.5px solid var(--line);border-radius:var(--r);padding:9px 10px}
+.kcard .kt{font-size:11.5px;font-weight:700}
+.kcard .ktags{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+.mini-tag{font-size:8.5px;font-weight:700;padding:2px 7px;border:1px solid var(--line);border-radius:3px;text-transform:uppercase}
+
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;height:100%;min-height:0}
+@media(max-width:640px){.mgrid{grid-template-columns:1fr;height:auto}.mtile{min-height:0;overflow:visible}.mbody{overflow:visible}}
+.mtile{border:1.5px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.mtile .mh{padding:10px 12px;border-bottom:1.5px solid var(--line)}
+.mtile .mn{font-size:11.5px;font-weight:700;text-transform:uppercase}
+.mtile .msub{display:block;font-size:9.5px;color:var(--muted);margin-top:1px;text-transform:none}
+.mbody{flex:1;overflow:auto;padding:8px 10px;display:flex;flex-direction:column;gap:4px}
+.mrow{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:11.5px}
+.mchk{width:14px;height:14px;border:1.4px solid var(--line);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:transparent}
+.mchk svg{width:8px;height:8px}
+.mrow.done .mchk{background:var(--ink);color:var(--bg)}
+.mrow.done .mtx{text-decoration:line-through;opacity:.5}
+.mtx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal .dow{text-align:center;font-size:8.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:2px 0}
+.cell{aspect-ratio:1/.82;border:1.3px solid var(--line-soft);border-radius:4px;padding:4px 5px;position:relative;font-size:9.5px}
+.cell.today{border-color:var(--ink);border-width:1.6px;font-weight:700}
+.cell.mute{opacity:.3}
+.cell .n{position:absolute;bottom:3px;left:4px;font-size:7px;font-weight:700;padding:0 4px;border:1px solid var(--line)}
+
+/* engine / manifesto section */
+.engine{padding:clamp(50px,8vw,96px) 0}
+.engine .quote{font-family:"Archivo Black",sans-serif;text-transform:none;font-size:clamp(19px,2.6vw,28px);line-height:1.35;margin:26px 0;padding:20px 0 20px 22px;border-left:3px solid var(--line)}
+.shot-box{padding:12px;margin-top:20px}
+.shot-box .capt{font-size:10.5px;color:var(--muted);margin-top:10px;letter-spacing:.02em}
+.found-grid{display:grid;gap:26px;margin-top:8px}
+@media(min-width:840px){.found-grid{grid-template-columns:1fr 1fr}}
+
+/* build log / episode panel */
+.bl-header{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.entry-panel{overflow:hidden}
+.entry-media{aspect-ratio:16/8;position:relative;border-bottom:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.entry-media .badge{position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:var(--bg);border:1.5px solid var(--line);border-radius:var(--r);padding:5px 10px}
+.entry-media .badge i{width:7px;height:7px;border-radius:99px;background:var(--blue)}
+.entry-body{padding:clamp(16px,3vw,26px)}
+.entry-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:11px}
+.entry-meta .tagbox{border:1.5px solid var(--line);border-radius:var(--r);padding:4px 10px;font-weight:700}
+.entry-meta .status{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--red);color:var(--red);border-radius:var(--r);padding:4px 10px;font-weight:700}
+.entry-meta .status i{width:6px;height:6px;border-radius:99px;background:var(--red)}
+.entry-title{font-family:"Archivo Black",sans-serif;text-transform:uppercase;font-size:clamp(19px,2.6vw,28px);margin:14px 0}
+.entry-desc{border:1.5px solid var(--line-soft);border-radius:var(--r);padding:14px 16px;font-size:12.8px;color:var(--muted);line-height:1.7}
+.entry-hashes{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.hashtag{font-size:10px;font-weight:700;border:1.5px solid var(--line);border-radius:var(--r);padding:5px 10px;text-transform:uppercase}
+.entry-line{font-size:10.5px;color:var(--muted);margin-top:14px}
+.entry-dash{border-top:1.5px dashed var(--line-soft);margin:14px 0}
+.entry-sys{font-size:10px;color:var(--muted);letter-spacing:.02em}
+.entry-nav{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px}
+.enavbtn{flex:1;min-width:56px;padding:9px 6px;border:1.5px solid var(--line);border-radius:var(--r);font-size:11px;font-weight:700;text-align:center;transition:.15s}
+.enavbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.enavbtn:not(.on):hover{background:var(--line-soft)}
+
+/* personalize */
+.theme-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.theme-card{border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:.15s}
+.theme-card.on{border-width:2.5px;border-color:var(--accent);box-shadow:0 12px 26px -16px rgba(0,0,0,.35)}
+.theme-card .tc-top{height:100px;position:relative;overflow:hidden;border-bottom:1.5px solid var(--line)}
+.theme-card .tc-top i{position:absolute;inset:0}
+.theme-card .tc-body{padding:13px 15px}
+.theme-card b{font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;display:block}
+.theme-card span{font-size:11px;color:var(--muted);display:block;margin-top:5px;line-height:1.5;text-transform:none;font-weight:400}
+.modetoggle{display:flex;justify-content:center;gap:8px;margin-top:20px}
+.modebtn{padding:9px 18px;border:1.5px solid var(--line);border-radius:var(--r);font-size:11px;font-weight:700;text-transform:uppercase}
+.modebtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* platforms */
+.plat-list{display:grid;gap:-1px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+.plat-item{display:flex;align-items:center;gap:11px;padding:16px 18px;border:0.75px solid var(--line-soft)}
+.plat-item svg{width:18px;height:18px}
+.plat-item b{font-size:12.5px;text-transform:uppercase;letter-spacing:.02em}
+
+/* faq */
+.faq{max-width:740px;margin-inline:auto;border-top:1.5px solid var(--line)}
+.faq details{border-bottom:1.5px solid var(--line)}
+.faq summary{padding:17px 2px;cursor:pointer;font-weight:700;font-size:13px;list-style:none;display:flex;align-items:center;gap:12px;text-transform:uppercase;letter-spacing:.02em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .ind{margin-left:auto;font-size:14px;flex-shrink:0}
+.faq details[open] summary .ind::before{content:"[-]"}
+.faq summary .ind::before{content:"[+]"}
+.faq .a{padding:0 2px 18px 2px;font-size:12.8px;color:var(--muted);line-height:1.7;max-width:66ch;text-transform:none;font-weight:400}
+.faq .a code{font-size:11.5px;background:var(--panel);border:1px solid var(--line-soft);border-radius:3px;padding:1px 5px}
+
+/* stay in touch */
+.touch-grid{display:grid;gap:26px;align-items:center}
+@media(min-width:840px){.touch-grid{grid-template-columns:1fr 1fr}}
+.touch-form{display:flex;flex-direction:column;gap:9px}
+.touch-bar{display:flex;gap:8px;flex-wrap:wrap}
+.touch-bar .cta-input{flex:1;min-width:200px}
+
+/* footer */
+.foot{border-top:2px solid var(--line);padding:30px 0 100px}
+.foot-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 14px}
+.foot-links{display:flex;flex-wrap:wrap;gap:10px 16px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.foot-links a:hover{color:var(--accent)}
+.foot-social{display:flex;gap:8px;align-items:center}
+.foot small{font-size:10.5px;color:var(--muted);display:block;margin-top:6px}
+@media(max-width:680px){
+  .foot-in{flex-direction:column;align-items:flex-start}
+  .foot-links{width:100%;padding-top:16px;border-top:1.5px solid var(--line-soft)}
+  .foot-social{width:100%;padding-top:16px;border-top:1.5px solid var(--line-soft)}
+}
+
+/* floating waitlist bar */
+.float-bar{position:fixed;left:16px;right:16px;bottom:16px;z-index:120;display:flex;justify-content:center;transform:translateY(140%);transition:transform .3s cubic-bezier(.2,.9,.25,1)}
+.float-bar.show{transform:translateY(0)}
+.float-in{display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border-radius:var(--r);padding:6px 6px 6px 20px;box-shadow:0 18px 40px rgba(0,0,0,.35);max-width:420px;transition:background .25s}
+.float-in b{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.float-in button.join{background:var(--bg);color:var(--ink);border-radius:3px;padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.float-in button.dismiss{width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--bg);border-radius:3px;color:var(--bg)}
+.float-in button.dismiss svg{width:13px;height:13px}
+
+/* command palette */
+.pal{position:fixed;inset:0;z-index:150;background:rgba(10,8,4,.55);display:none;justify-content:center;padding:11vh 16px 16px}
+.pal.open{display:flex}
+.palbox{background:var(--panel);border:1.5px solid var(--line);border-radius:var(--r);width:100%;max-width:460px;height:fit-content;overflow:hidden}
+.palin{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1.5px solid var(--line)}
+.palin svg{width:15px;height:15px;color:var(--muted)}
+.palin input{flex:1;background:none;border:0;outline:none;font-size:13px}
+.palres{max-height:46vh;overflow-y:auto}
+.palit{width:100%;display:flex;gap:10px;align-items:flex-start;padding:10px 16px;text-align:left;border-left:3px solid transparent}
+.palit svg{width:14px;height:14px;color:var(--muted);margin-top:2px;flex-shrink:0}
+.palit .pt{font-size:12px;font-weight:700;text-transform:uppercase}
+.palit .ps{font-size:10.5px;color:var(--muted)}
+.palit.sel{background:var(--bg);border-left-color:var(--accent)}
+.palfoot{padding:9px 16px;border-top:1.5px solid var(--line);font-size:9.5px;color:var(--muted);display:flex;gap:14px}
+.kbd{font-size:9.5px;font-weight:700;border:1px solid var(--line-soft);border-radius:3px;padding:2px 5px}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(22px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:var(--r);font-size:12.5px;z-index:200;opacity:0;transition:.26s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- premium shadow accents (playarc raises a few key panels off the page) ---------- */
+.cta-box{box-shadow:0 22px 44px -20px rgba(0,0,0,.28)}
+html.dark .cta-box{box-shadow:0 22px 44px -18px rgba(0,0,0,.6)}
+.modal-box{box-shadow:0 30px 70px -22px rgba(0,0,0,.4)}
+html.dark .modal-box{box-shadow:0 30px 70px -18px rgba(0,0,0,.75)}
+.theme-card:hover,.btile:hover,.plat-item:hover{background:var(--line-soft);transition:background .15s}
+html.dark .theme-card:hover,html.dark .btile:hover,html.dark .plat-item:hover{background:#151515}
+
+/* ---------- grid-paper (blueprint) background — behind the hero schematic, like ARC's ---------- */
+.grid-paper{
+  background-image:
+    linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size:26px 26px;
+  background-position:-1px -1px;
+}
+
+/* ---------- boot / loading screen ---------- */
+#bootScreen{position:fixed;inset:0;z-index:999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .45s ease, visibility .45s ease}
+#bootScreen.hide{opacity:0;visibility:hidden;pointer-events:none}
+.boot-mark{width:76px;height:76px;border-radius:17px;display:flex;align-items:center;justify-content:center}
+.boot-mark svg{width:30px;height:30px;color:var(--ink)}
+.boot-mark svg circle,.boot-mark svg path{stroke-dasharray:60;stroke-dashoffset:60;animation:bootdraw 1s ease forwards}
+.boot-mark svg path{animation-delay:.12s}
+@keyframes bootdraw{to{stroke-dashoffset:0}}
+.boot-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.boot-bar{width:180px;height:3px;background:var(--line-soft);border-radius:99px;overflow:hidden}
+.boot-bar i{display:block;height:100%;width:0%;background:var(--ink);animation:bootbar 1.2s ease forwards}
+@keyframes bootbar{to{width:100%}}
+
+/* ---------- mobile nav drawer ---------- */
+.menu-btn{display:flex}
+@media(min-width:880px){.menu-btn{display:none}}
+.mnav{position:fixed;inset:0;z-index:140;background:var(--bg);display:none;flex-direction:column;padding:18px 18px 30px;overflow-y:auto}
+.mnav.open{display:flex}
+.mnav-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;min-height:44px}
+.mnav-links{display:flex;flex-direction:column}
+.mnav-links a{padding:18px 2px;font-size:22px;border-bottom:1.5px solid var(--line-soft);font-family:"Archivo Black",sans-serif;text-transform:uppercase}
+.mnav .btn{margin-top:26px}
+.mnav-social{display:flex;gap:8px;margin-top:auto;padding-top:20px}
+
+/* ---------- waitlist success modal ---------- */
+.modal-wrap{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(10,8,4,.6)}
+.modal-wrap.open{display:flex}
+.modal-box{position:relative;max-width:440px;width:100%;background:var(--panel);border:1.5px solid var(--line);border-radius:var(--r);padding:clamp(28px,5vw,42px) clamp(22px,5vw,34px);text-align:center;animation:modalIn .35s cubic-bezier(.2,.9,.25,1);overflow:hidden}
+@keyframes modalIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border:1.5px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;z-index:2}
+.modal-check{width:64px;height:64px;border-radius:99px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--green);position:relative;z-index:1}
+.modal-check svg{width:30px;height:30px;stroke-dasharray:40;stroke-dashoffset:40;animation:checkdraw .5s .2s ease forwards}
+@keyframes checkdraw{to{stroke-dashoffset:0}}
+.modal-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.modal-title{font-family:"Archivo Black",sans-serif;text-transform:uppercase;font-size:clamp(22px,4vw,30px);margin:10px 0 12px;line-height:1.05}
+.modal-copy{font-size:12.8px;color:var(--muted);line-height:1.7;max-width:36ch;margin:0 auto}
+.modal-pos{margin-top:18px;border:1.5px solid var(--line);border-radius:var(--r);padding:12px}
+.modal-pos b{font-size:22px;display:block;font-family:"Archivo Black",sans-serif}
+.modal-pos span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.modal-actions{display:flex;gap:8px;margin-top:22px}
+.confetti-dot{position:absolute;top:38%;left:50%;width:6px;height:6px;border-radius:99px;background:var(--ink);opacity:0;animation:confetti 1s ease forwards;z-index:0}
+@keyframes confetti{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.3)}}
+
+/* ---------- interactive demo affordances ---------- */
+.gnode{cursor:pointer;transition:r .15s,fill .15s}
+.gnode:hover{fill:var(--accent)}
+.gnode.active{fill:var(--accent)}
+.gedge{transition:stroke .15s}
+.gedge.active{stroke:var(--accent);stroke-width:1.8}
+.gtip{position:absolute;pointer-events:none;background:var(--accent);color:#fff;font-size:10.5px;font-weight:700;padding:6px 10px;border-radius:4px;transform:translate(-50%,-135%);white-space:nowrap;opacity:0;transition:opacity .12s;z-index:5;top:0;left:0}
+.gtip.show{opacity:1}
+.mrow{cursor:pointer;transition:opacity .15s}
+.mchk{transition:.15s}
+.cell{cursor:pointer;transition:.15s}
+.cell:hover{border-color:var(--ink)}
+.kcard{cursor:grab;transition:opacity .15s,transform .1s}
+.kcard:active{cursor:grabbing}
+.kcard.dragging{opacity:.35}
+.kcol.dragover{background:var(--line-soft)}
+.cvv{touch-action:none}
+.cvcard{cursor:grab;user-select:none;touch-action:none}
+.cvcard:active{cursor:grabbing}
+.hcard .hv{transition:.2s}
+
+/* ---------- scroll-reveal + small ambient motion ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.reveal-in{opacity:1;transform:translateY(0)}
+@keyframes blipPulse{0%,50%,100%{opacity:1}25%,75%{opacity:.35}}
+.demo-top .blip,.entry-media .badge i,.hero-tag .live-dot{animation:blipPulse 2s ease-in-out infinite}
+.typecursor::after{content:"▍";margin-left:2px;animation:caretBlink 1s step-end infinite;color:var(--accent)}
+@keyframes caretBlink{50%{opacity:0}}
+.btile,.theme-card,.plat-item{transition:background .15s,box-shadow .2s,transform .15s}
+.btile:hover,.theme-card:hover,.plat-item:hover{box-shadow:0 16px 30px -20px rgba(0,0,0,.3);transform:translateY(-2px)}
+
+/* ---------- boot logo (raster image fade/scale instead of stroke-draw) ---------- */
+.boot-mark{overflow:hidden}
+.boot-mark .logo-img{animation:bootlogo .7s cubic-bezier(.2,.8,.3,1) both}
+@keyframes bootlogo{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+
+/* ---------- "app screenshot" mockup used in the Build Log media panel ---------- */
+.app-shot{width:100%;height:100%;display:flex;flex-direction:column;background:var(--panel)}
+.app-shot .as-top{display:flex;align-items:center;gap:6px;padding:9px 14px;border-bottom:1.5px solid var(--line);flex-shrink:0}
+.app-shot .as-dot{width:7px;height:7px;border-radius:99px;background:var(--line-soft)}
+.app-shot .as-title{margin-left:8px;font-size:9.5px;color:var(--muted);letter-spacing:.03em;text-transform:uppercase}
+.app-shot .as-body{flex:1;display:flex;min-height:0}
+.app-shot .as-side{width:66px;border-right:1.5px solid var(--line);padding:12px 9px;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+.app-shot .as-side i{display:block;height:6px;border-radius:2px;background:var(--line-soft)}
+.app-shot .as-side i.on{background:var(--accent)}
+.app-shot .as-main{flex:1;position:relative;overflow:hidden;padding:16px}
+.as-sticky{position:absolute;width:74px;border:1.3px solid var(--line);border-radius:4px;background:var(--bg);padding:7px 8px;font-size:8px;line-height:1.4}
+.as-sticky b{display:block;font-size:7px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.as-scanline{position:absolute;left:8%;right:8%;height:2px;background:var(--accent);opacity:.7;animation:scanmove 2.6s ease-in-out infinite}
+@keyframes scanmove{0%,100%{top:14%}50%{top:82%}}
+.as-photo{position:absolute;inset:14% 8%;border:1.5px dashed var(--line-soft);border-radius:6px}
+.as-swatch{position:absolute;width:34px;height:34px;border-radius:99px;border:1.5px solid var(--line)}
+.as-gwrap{position:absolute;inset:10%;border:1.3px solid var(--line-soft);border-radius:6px;overflow:hidden}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}#bootScreen{display:none!important}.reveal{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<!-- ============ BOOT / LOADING SCREEN ============ -->
+<div id="bootScreen" aria-hidden="true">
+  <div class="boot-mark"><img class="logo-img" alt="Nodalis"></div>
+  <div class="boot-label" id="bootLabel">INITIALIZING VAULT&hellip;</div>
+  <div class="boot-bar"><i></i></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============ ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-node" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="8" r="2.4"/><circle cx="9" cy="18" r="2.4"/><path d="M8.2 6.7l7.4 1M6.9 8.2l1.6 7.4M16.3 9.9l-5.6 6.3"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-8 9 8M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/></symbol>
+<symbol id="i-graph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="8" r="2.4"/><circle cx="9" cy="18" r="2.4"/><path d="M8.2 6.7l7.4 1M6.9 8.2l1.6 7.4M16.3 9.9l-5.6 6.3"/></symbol>
+<symbol id="i-canvas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="6.5" width="7" height="7" rx="1.5"/><rect x="8" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.8l4 1.4M9.5 10l1.4 4M14.6 12l-2.2 2.6"/></symbol>
+<symbol id="i-board" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="4" width="4.6" height="16" rx="1"/><rect x="9.8" y="4" width="4.6" height="10" rx="1"/><rect x="16" y="4" width="4.6" height="13" rx="1"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4m8-4v4M3 10h18"/></symbol>
+<symbol id="i-matrix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></symbol>
+<symbol id="i-tasks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M9 19H5a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z"/><path d="M3 6l9 7 9-7"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></symbol>
+<symbol id="i-checkc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></symbol>
+<symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4m0 4h.01M10.3 3.9L2.7 17a1.6 1.6 0 001.4 2.4h15.8a1.6 1.6 0 001.4-2.4L13.7 3.9a1.6 1.6 0 00-2.8 0z"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M10 11a4 4 0 100-8 4 4 0 000 8zm8 9v-1a4 4 0 00-3-3.9M15 3.1A4 4 0 0117 7a4 4 0 01-2 3.5"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4l1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></symbol>
+<symbol id="i-cloudoff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M16.9 16.9H6a4 4 0 01-1-7.9 5.5 5.5 0 019-4.2m2.6 3.1A4 4 0 0119 17"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a5 5 0 007 0l2-2a5 5 0 00-7-7l-1 1m-1 7a5 5 0 01-7 0l-2-2a5 5 0 017-7l1-1"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 19h16"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.6a1 1 0 01.7.3l5.4 5.4a1 1 0 01.3.7V19a2 2 0 01-2 2z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 110-18c4.97 0 9 3.5 9 7.5 0 2-1.5 3.5-3.5 3.5H15a1.7 1.7 0 00-1.2 2.9c.4.4.6.9.6 1.4 0 1.5-1 2.7-2.4 2.7z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18 14 14 0 010-18z"/></symbol>
+<symbol id="i-apple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 12.3c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8-.7 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.3-1.6 2.9-.4 7.1 1.2 9.4.8 1.1 1.7 2.4 3 2.3 1.2 0 1.6-.8 3.1-.8s1.8.8 3.1.8c1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.8-1.1-2.8-4.2z"/><path d="M13.8 5.6c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3z"/></symbol>
+<symbol id="i-android" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16V9a7 7 0 0114 0v7M4 12h16M8 4l1.5 2M16 4l-1.5 2"/></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></symbol>
+<symbol id="i-github" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.16 19.5c.5.1.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 015 0c1.9-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s-6 6.5-6 11a6 6 0 0012 0c0-1.8-1-3-1-3s-.5 2-2 2c-1.8 0-1-3-3-3.5.7 1.8-1 3-1 3s1-4.5 1-9.5z"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3zM3 12l9 4.5 9-4.5M3 16.5L12 21l9-4.5"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20V4a1 1 0 00-1-1H6.5A2.5 2.5 0 004 5.5v14z"/><path d="M20 17v4H6.5A2.5 2.5 0 014 18.5"/></symbol>
+<symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z"/><path d="M7 9l3 3-3 3m5 0h4"/></symbol>
+<symbol id="i-command" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5a2 2 0 10-2 2h10a2 2 0 10-2-2m0 14a2 2 0 102-2H7a2 2 0 102 2"/><rect x="7" y="7" width="10" height="10" rx="2"/></symbol>
+</defs></svg>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" onclick="closePal()">
+      <span class="mark"><img class="logo-img" alt="Nodalis"></span>NODALIS
+    </a>
+    <nav class="nav-links">
+      <a href="#features">FEATURES</a><span class="sl">/</span>
+      <a href="#demo">DEMO</a><span class="sl">/</span>
+      <a href="#engine">ENGINE</a><span class="sl">/</span>
+      <a href="#diary">BUILD LOG</a><span class="sl">/</span>
+      <a href="#faq">FAQ</a><span class="sl">/</span>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" onclick="openPal()" aria-label="Search"><svg><use href="#i-search"/></svg></button>
+      <button class="icon-btn" id="modeBtn" onclick="toggleMode()" aria-label="Toggle dark mode"><svg><use href="#i-moon"/></svg></button>
+      <button class="icon-btn menu-btn" onclick="openMnav()" aria-label="Open menu"><svg><use href="#i-command"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MOBILE NAV DRAWER ============ -->
+<div class="mnav" id="mnav">
+  <div class="mnav-top">
+    <a class="brand" href="#top" onclick="closeMnav()"><span class="mark"><img class="logo-img" alt="Nodalis"></span>NODALIS</a>
+    <button class="icon-btn" onclick="closeMnav()" aria-label="Close menu"><svg><use href="#i-x"/></svg></button>
+  </div>
+  <nav class="mnav-links">
+    <a href="#features" onclick="closeMnav()">Features</a>
+    <a href="#demo" onclick="closeMnav()">Demo</a>
+    <a href="#engine" onclick="closeMnav()">Engine</a>
+    <a href="#diary" onclick="closeMnav()">Build log</a>
+    <a href="#faq" onclick="closeMnav()">FAQ</a>
+  </nav>
+  <button class="btn btn-solid btn-block" onclick="closeMnav();focusForm()"><svg><use href="#i-arrow"/></svg>JOIN THE WAITLIST</button>
+  <div class="mnav-social">
+    <a class="icon-btn" href="https://harshavarthanep.github.io/apps" target="_blank" rel="noopener" aria-label="More apps"><svg><use href="#i-grid"/></svg></a>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-tag"><b>NODALIS // SCHEMATIC</b></div>
+    <div class="hero-sub" id="heroSub"></div>
+
+    <div class="schem box grid-paper">
+      <span class="schem-corner tl">SYSTEM: READY</span>
+      <span class="schem-corner tr">REV 001<br>NODALIS CO</span>
+      <svg id="schemSvg" viewBox="0 0 640 300" aria-hidden="true">
+        <!-- device / app window -->
+        <rect class="schem-shape" x="230" y="50" width="180" height="170" rx="14"/>
+        <line class="schem-line" x1="230" y1="80" x2="410" y2="80"/>
+        <rect class="schem-shape" x="244" y="92" width="30" height="112" rx="4"/>
+        <rect class="schem-shape" x="284" y="92" width="110" height="112" rx="6"/>
+        <!-- mini graph glyph rendered "on screen" -->
+        <g id="schemGraph"></g>
+        <!-- command palette icon (outside, top right) -->
+        <circle class="schem-shape" cx="450" cy="72" r="11"/>
+        <rect class="schem-shape" x="444" y="66" width="12" height="12" rx="2"/>
+        <!-- search icon (outside, below it) -->
+        <circle class="schem-shape" cx="450" cy="102" r="11"/>
+        <circle class="schem-shape" cx="447" cy="99" r="4.5"/>
+        <line class="schem-line" x1="450" y1="102" x2="454" y2="106"/>
+        <!-- vault / folder icon (outside, bottom left) -->
+        <rect class="schem-shape" x="150" y="176" width="10" height="6" rx="1"/>
+        <rect class="schem-shape" x="146" y="182" width="34" height="24" rx="2"/>
+        <!-- no-cloud icon (outside, bottom right) -->
+        <circle class="schem-shape" cx="452" cy="196" r="14"/>
+        <line class="schem-line" x1="443" y1="187" x2="461" y2="205"/>
+        <!-- leader lines -->
+        <path class="schem-dash" d="M320 50 L320 26"/>
+        <path class="schem-dash" d="M163 176 L96 138"/>
+        <path class="schem-dash" d="M461 72 L540 58"/>
+        <path class="schem-dash" d="M339 148 L520 132"/>
+        <path class="schem-dash" d="M466 205 L540 224"/>
+        <!-- leader terminators -->
+        <circle class="schem-node" cx="320" cy="50" r="2"/>
+        <circle class="schem-node" cx="163" cy="176" r="2"/>
+        <circle class="schem-node" cx="461" cy="72" r="2"/>
+        <circle class="schem-node" cx="339" cy="148" r="2"/>
+        <circle class="schem-node" cx="466" cy="205" r="2"/>
+        <!-- labels -->
+        <text class="schem-label" x="320" y="19" text-anchor="middle">C &#8212; DISPLAY</text>
+        <text class="schem-label" x="12" y="133" text-anchor="start">A &#8212; VAULT (YOUR FILES)</text>
+        <text class="schem-label" x="544" y="54" text-anchor="start">B &#8212; PALETTE</text>
+        <text class="schem-label" x="524" y="128" text-anchor="start">D &#8212; GRAPH ENGINE</text>
+        <text class="schem-label" x="544" y="228" text-anchor="start">E &#8212; CLOUD: NONE</text>
+        <!-- dimension bracket -->
+        <path class="schem-line" d="M230 244 L230 250 L410 250 L410 244"/>
+      </svg>
+      <span class="schem-corner bl" style="position:static;display:block;text-align:center;margin-top:14px">L &mdash; YOUR DISK &nbsp;[LOCAL_STORAGE]</span>
+    </div>
+
+    <h1 class="display hero-headline">Built for the way<br>you think.<span class="lede">Nodalis is a local-first notes, canvas and knowledge-graph app. Plain markdown files on your own disk, a live graph of every link, boards and calendars for the plan &mdash; free forever, fully offline, no account.</span></h1>
+
+    <div class="cta-box box" id="access">
+      <div class="lab">GET EARLY ACCESS</div>
+      <form id="wlForm" novalidate class="cta-form">
+        <input class="cta-input" id="wlEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Your email address">
+        <button class="btn btn-solid btn-block" id="wlBtn" type="submit"><svg><use href="#i-arrow"/></svg>JOIN THE WAITLIST</button>
+      </form>
+      <div class="wl-msg" id="wlMsg"><span id="wlIcon"></span><span id="wlText"></span></div>
+      <details id="wlDiag" style="display:none">
+        <summary>technical detail (for the site owner)</summary>
+        <pre id="wlDiagText"></pre>
+      </details>
+      <div class="trust-line">FREE FOREVER &middot; NO ACCOUNT &middot; WORKS OFFLINE &middot; DATA NEVER LEAVES YOUR DEVICE</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ FEATURES ============ -->
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="shead2">
+      <span class="eyebrow">FEATURES</span>
+      <h2 class="display">One app. Every view<br>your thinking needs.</h2>
+      <p>No plugin marketplace to assemble first &mdash; graph, canvas, boards, calendar and a priority matrix ship together, reading the same plain files.</p>
+    </div>
+    <div class="bento">
+      <div class="btile w4"><span class="bn">01</span><div class="bi"><svg><use href="#i-lock"/></svg></div><h4>Local-first, always</h4><p>Every note is a plain <code>.md</code> file on your own disk via the File System Access API. No server ever sees your writing.</p></div>
+      <div class="btile w2"><span class="bn">02</span><div class="bi"><svg><use href="#i-graph"/></svg></div><h4>Knowledge graph</h4><p>Every <code>[[link]]</code> becomes an edge. Watch clusters form as the vault grows.</p></div>
+      <div class="btile w2"><span class="bn">03</span><div class="bi"><svg><use href="#i-canvas"/></svg></div><h4>Infinite canvas</h4><p>Frame and connect loose ideas on a freeform board.</p></div>
+      <div class="btile w2"><span class="bn">04</span><div class="bi"><svg><use href="#i-link"/></svg></div><h4>Automatic backlinks</h4><p>Every note shows who references it, with context.</p></div>
+      <div class="btile w3"><span class="bn">05</span><div class="bi"><svg><use href="#i-board"/></svg></div><h4>Table, board, gallery, calendar</h4><p>View the same notes as a kanban board, a sortable table, a gallery, or a due-date calendar.</p></div>
+      <div class="btile w3"><span class="bn">06</span><div class="bi"><svg><use href="#i-matrix"/></svg></div><h4>Priority matrix</h4><p>The Eisenhower method, populated straight from your open tasks.</p></div>
+      <div class="btile w2"><span class="bn">07</span><div class="bi"><svg><use href="#i-flame"/></svg></div><h4>Tasks &amp; streaks</h4><p>Checkboxes anywhere become tracked tasks, with a daily-review streak.</p></div>
+      <div class="btile w2"><span class="bn">08</span><div class="bi"><svg><use href="#i-eye"/></svg></div><h4>On-device OCR</h4><p>Search text inside images and scans &mdash; nothing uploaded.</p></div>
+      <div class="btile w2"><span class="bn">09</span><div class="bi"><svg><use href="#i-command"/></svg></div><h4>Command palette</h4><p><kbd class="kbd">CTRL</kbd> <kbd class="kbd">K</kbd> jumps to any note or view instantly.</p></div>
+      <div class="btile w3"><span class="bn">10</span><div class="bi"><svg><use href="#i-download"/></svg></div><h4>Real exports</h4><p>Markdown with tags and links intact, a full zip backup, or one JSON snapshot of the vault.</p></div>
+      <div class="btile w3"><span class="bn">11</span><div class="bi"><svg><use href="#i-palette"/></svg></div><h4>Three complete themes</h4><p>Nodalis, Notion and Nothing &mdash; each with a matching light and dark mode.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ DEMO ============ -->
+<section class="sec" id="demo">
+  <div class="wrap">
+    <div class="shead2">
+      <span class="eyebrow">LIVE PREVIEW</span>
+      <h2 class="display">Every view, running live.</h2>
+      <p>This isn't a screenshot &mdash; it's the same layout and type scale as the app, rendered right here in your browser.</p>
+    </div>
+    <div class="demo-tabs" id="demoTabs"></div>
+    <div class="box">
+      <div class="demo-top"><span class="blip"></span><b>NODALIS &mdash; RUNNING LOCALLY</b><span>NO SERVER IN THE LOOP</span></div>
+      <div class="demo-stage" id="stage">
+
+        <div class="dscreen on" data-s="home">
+          <div class="d-head"><span class="t"><svg><use href="#i-home"/></svg>HOME</span><span class="hint">THURSDAY &middot; 14 NOTES TOUCHED THIS WEEK</span></div>
+          <div class="ring-wrap">
+            <svg class="ring" viewBox="0 0 64 64"><circle class="bg" cx="32" cy="32" r="26"/><circle class="fg" cx="32" cy="32" r="26" stroke-dasharray="163.4" stroke-dashoffset="38"/></svg>
+            <div class="streak-copy"><b>12-DAY STREAK</b><span>Daily review completed 12 days running</span></div>
+          </div>
+          <div class="hcards" style="margin-top:12px">
+            <div class="hcard"><div class="hl"><svg><use href="#i-file"/></svg>NOTES</div><div class="hv">482</div><div class="hs">plain .md files</div></div>
+            <div class="hcard"><div class="hl"><svg><use href="#i-tasks"/></svg>DUE TODAY</div><div class="hv">6</div><div class="hs">2 overdue</div></div>
+            <div class="hcard"><div class="hl"><svg><use href="#i-link"/></svg>BACKLINKS</div><div class="hv">1.3K</div><div class="hs">across the vault</div></div>
+          </div>
+        </div>
+
+        <div class="dscreen" data-s="graph">
+          <div class="d-head"><span class="t"><svg><use href="#i-graph"/></svg>KNOWLEDGE GRAPH</span><span class="hint">128 NOTES &middot; 340 LINKS</span></div>
+          <div class="gwrap"><svg id="gSvg" viewBox="0 0 600 320"></svg><div class="graph-legend" id="graphHint">CLICK A NODE TO OPEN IT</div><div class="gtip" id="gTip"></div></div>
+        </div>
+
+        <div class="dscreen" data-s="canvas">
+          <div class="d-head"><span class="t"><svg><use href="#i-canvas"/></svg>CANVAS</span><span class="hint">DRAG THE CARDS AROUND — TRY IT</span></div>
+          <div class="cvv">
+            <div class="cvframe" style="left:18px;top:14px;width:220px;height:145px"><span>LAUNCH PLAN</span></div>
+            <div class="cvcard" style="left:32px;top:42px"><span class="cvl">IDEA</span>Waitlist page uses the app's real fonts</div>
+            <div class="cvcard" style="left:126px;top:98px"><span class="cvl">TODO</span>Wire the Apps Script endpoint</div>
+            <div class="cvcard" style="left:280px;top:58px"><span class="cvl">NOTE</span>Local-first via File System Access API</div>
+            <div class="cvcard" style="left:290px;top:184px"><span class="cvl">LINK</span>Connects to &ldquo;Knowledge graph&rdquo;</div>
+          </div>
+        </div>
+
+        <div class="dscreen" data-s="board">
+          <div class="d-head"><span class="t"><svg><use href="#i-board"/></svg>BOARD</span><span class="hint">TAP A CARD TO ADVANCE IT</span></div>
+          <div class="kcols">
+            <div class="kcol"><h4><i></i>TO DO<b>3</b></h4><div class="kbody">
+              <div class="kcard"><div class="kt">Write SETUP guide</div><div class="ktags"><span class="mini-tag">DOCS</span></div></div>
+              <div class="kcard"><div class="kt">Record demo clip</div></div>
+              <div class="kcard"><div class="kt">Draft build-log post</div></div>
+            </div></div>
+            <div class="kcol"><h4><i></i>DOING<b>2</b></h4><div class="kbody">
+              <div class="kcard"><div class="kt">Wire Google Sheets endpoint</div><div class="ktags"><span class="mini-tag">BACKEND</span></div></div>
+              <div class="kcard"><div class="kt">Polish graph physics</div></div>
+            </div></div>
+            <div class="kcol"><h4><i></i>DONE<b>4</b></h4><div class="kbody">
+              <div class="kcard"><div class="kt">Ship canvas frames</div></div>
+              <div class="kcard"><div class="kt">OCR search</div></div>
+            </div></div>
+          </div>
+        </div>
+
+        <div class="dscreen" data-s="cal">
+          <div class="d-head"><span class="t"><svg><use href="#i-cal"/></svg>CALENDAR</span><span class="hint">TAP A DAY TO SEE WHAT'S DUE</span></div>
+          <div class="cal" id="calDemo"></div>
+        </div>
+
+        <div class="dscreen" data-s="matrix">
+          <div class="d-head"><span class="t"><svg><use href="#i-matrix"/></svg>PRIORITY MATRIX</span><span class="hint">TAP A TASK TO CHECK IT OFF</span></div>
+          <div class="mgrid">
+            <div class="mtile"><div class="mh"><span class="mn">DO FIRST<span class="msub">Urgent &amp; important</span></span></div><div class="mbody">
+              <div class="mrow"><span class="mchk"></span><span class="mtx">Reply to invite batch</span></div>
+              <div class="mrow done"><span class="mchk"><svg><use href="#i-check"/></svg></span><span class="mtx">Fix graph zoom bug</span></div>
+            </div></div>
+            <div class="mtile"><div class="mh"><span class="mn">SCHEDULE<span class="msub">Important, not urgent</span></span></div><div class="mbody">
+              <div class="mrow"><span class="mchk"></span><span class="mtx">Design OCR onboarding</span></div>
+            </div></div>
+            <div class="mtile"><div class="mh"><span class="mn">DELEGATE<span class="msub">Urgent, not important</span></span></div><div class="mbody">
+              <div class="mrow"><span class="mchk"></span><span class="mtx">Answer support email</span></div>
+            </div></div>
+            <div class="mtile"><div class="mh"><span class="mn">LATER<span class="msub">Neither</span></span></div><div class="mbody">
+              <div class="mrow"><span class="mchk"></span><span class="mtx">Explore mobile packaging</span></div>
+            </div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ ENGINE (manifesto) ============ -->
+<section class="engine" id="engine">
+  <div class="wrap">
+    <span class="eyebrow">THE ENGINE</span>
+    <h2 class="display" style="font-size:clamp(26px,4.6vw,48px);margin-top:12px">The future of notes<br>won't live inside<br>one app.</h2>
+    <p style="font-size:13.5px;color:var(--muted);max-width:64ch;margin-top:16px;line-height:1.75">Most note apps ask you to trust their server, their sync engine and their export format all at once. Nodalis splits that apart: your notes are files, first and always &mdash; the graph, the canvas and every other view are just ways of looking at files that were already yours.</p>
+
+    <blockquote class="quote">You cannot future-proof your thinking by trapping it in someone else's database.</blockquote>
+
+    <div class="shot-box box">
+      <div class="gwrap" style="height:280px;border:0"><svg id="gSvgHero" viewBox="0 0 900 460" style="width:100%;height:100%;display:block"></svg></div>
+      <div class="capt">KNOWLEDGE GRAPH &nbsp;/&nbsp; 128 NOTES &middot; RENDERED LOCALLY IN THIS PAGE</div>
+    </div>
+
+    <div class="found-grid">
+      <div>
+        <span class="eyebrow">FOUNDATION</span>
+        <h3 class="display" style="font-size:clamp(19px,2.6vw,26px);margin:10px 0">Why we started with markdown</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.75">Markdown gives Nodalis a format every editor, every version-control system and every future tool already understands. Writing to real files via the File System Access API means the vault has no lock-in &mdash; open it in any text editor, sync it with any tool you already use, and read it in ten years.</p>
+      </div>
+      <div>
+        <span class="eyebrow">WHY IT MATTERS</span>
+        <h3 class="display" style="font-size:clamp(19px,2.6vw,26px);margin:10px 0">Offline is not a fallback</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.75">There is no "offline mode" toggle because there is no online mode to fall back from. Editing, tasks, the graph and the focus timer all run from a local IndexedDB cache backed by your real files &mdash; lose signal mid-sentence and keep writing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ BUILD LOG (episode panel) ============ -->
+<section class="sec" id="diary">
+  <div class="wrap">
+    <div class="bl-header">
+      <div>
+        <span class="eyebrow">BUILD LOG</span>
+        <h2 class="display" style="margin-top:10px">Inside Nodalis</h2>
+      </div>
+      <button class="btn btn-line btn-sm" onclick="jump('#diary')"><svg><use href="#i-arrow-up"/></svg>VIEW ALL UPDATES</button>
+    </div>
+
+    <div class="box entry-panel">
+      <div class="entry-media" id="entryMedia">
+        <span class="badge"><i></i>DEV NOTE</span>
+        <div class="app-shot" id="entryShot"></div>
+      </div>
+      <div class="entry-body">
+        <div class="entry-meta">
+          <span class="tagbox" id="entryEp">EP_01</span>
+          <span id="entryDate">RECORDED: 2026.08.16</span>
+          <span class="status" id="entryStatus"><i></i>SHIPPED</span>
+        </div>
+        <h3 class="entry-title" id="entryTitle">Knowledge graph engine rebuilt</h3>
+        <div class="entry-desc" id="entryDesc">Faster layout, smoother zoom, and orphan notes now surface on their own tab &mdash; the graph engine got a from-scratch rebuild this month.</div>
+        <div class="entry-hashes" id="entryHashes"></div>
+        <div class="entry-line" id="entryLine">BUILD: REV_04_KG12 &nbsp;|&nbsp; READ: 2 MIN</div>
+        <div class="entry-dash"></div>
+        <div class="entry-sys">SYS_CHANNEL: NODALIS_DEV</div>
+        <div class="entry-nav" id="entryNav"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ PERSONALIZE ============ -->
+<section class="sec" id="personalize">
+  <div class="wrap">
+    <div class="shead2">
+      <span class="eyebrow">PERSONALIZE</span>
+      <h2 class="display">Pick the skin.<br>It follows everywhere.</h2>
+      <p>Three complete themes, each with a matching light and dark mode &mdash; these are the app's real colour tokens, not a mockup.</p>
+    </div>
+    <div class="theme-row" id="themeRow"></div>
+    <div class="modetoggle" id="modeToggle"></div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ PLATFORMS ============ -->
+<section class="sec" id="platforms">
+  <div class="wrap">
+    <div class="shead2">
+      <span class="eyebrow">WHERE IT RUNS</span>
+      <h2 class="display">Every device you think on.</h2>
+      <p>Installs straight from the browser &mdash; full screen, its own icon, an offline shell. Access opens in small batches while testing continues.</p>
+    </div>
+    <div class="plat-list">
+      <div class="plat-item"><svg><use href="#i-monitor"/></svg><b>WINDOWS &amp; LINUX</b></div>
+      <div class="plat-item"><svg><use href="#i-apple"/></svg><b>MACOS &amp; IPADOS</b></div>
+      <div class="plat-item"><svg><use href="#i-android"/></svg><b>ANDROID</b></div>
+      <div class="plat-item"><svg><use href="#i-globe"/></svg><b>ANY MODERN BROWSER</b></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ FAQ ============ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="shead2" style="margin-bottom:20px">
+      <span class="eyebrow">QUESTIONS</span>
+      <h2 class="display">Before you start.</h2>
+    </div>
+    <div class="faq">
+      <details><summary>WHERE ARE MY NOTES STORED?<span class="ind"></span></summary><div class="a">On your own disk, as plain markdown files, in a folder you choose. A local IndexedDB cache mirrors them for speed and offline safety, but the folder is always the real copy.</div></details>
+      <details><summary>DOES IT WORK WITHOUT INTERNET?<span class="ind"></span></summary><div class="a">Yes, fully. There is no server in the loop for editing, tasks, the graph, the canvas or the focus timer. Nodalis is an installable, offline-first PWA.</div></details>
+      <details><summary>IS THE OCR OR SEARCH SENDING MY NOTES ANYWHERE?<span class="ind"></span></summary><div class="a">No. OCR, search indexing and the knowledge graph are all computed in the browser from files already on your device. Nothing is uploaded for them.</div></details>
+      <details><summary>CAN I GET MY WRITING OUT AGAIN?<span class="ind"></span></summary><div class="a">Always. Export as Markdown with your #tags and [[links]] intact, a full zip backup of the vault, or one JSON snapshot of everything.</div></details>
+      <details><summary>HOW DO I INSTALL IT?<span class="ind"></span></summary><div class="a">From the browser, on any device. Use the browser menu &mdash; <b>Install app</b> on Android and Chrome, the install icon in the address bar on Edge, and <b>Share &rarr; Add to Home Screen</b> in Safari on iPhone and iPad.</div></details>
+      <details><summary>HOW LONG IS THE WAITING LIST?<span class="ind"></span></summary><div class="a">Invites go out in batches as testing progresses. You'll get the link and a short note on what to try first, at the address you left above.</div></details>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ============ STAY IN TOUCH ============ -->
+<section class="sec" id="touch">
+  <div class="wrap">
+    <div class="touch-grid box" style="padding:clamp(22px,4vw,38px)">
+      <div>
+        <span class="eyebrow">STAY IN TOUCH</span>
+        <h2 class="display" style="font-size:clamp(24px,4vw,38px);margin-top:12px">Get the invite<br>the moment it's ready.</h2>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px;line-height:1.75">Receive build logs, feature previews and behind-the-scenes updates on Nodalis's development &mdash; and the invite link itself, the moment your batch opens.</p>
+      </div>
+      <div>
+        <div class="touch-bar">
+          <input class="cta-input" id="wlEmail2" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Your email address">
+          <button class="btn btn-solid" id="wlBtn2" type="button"><svg><use href="#i-arrow"/></svg>JOIN</button>
+        </div>
+        <div class="wl-msg" id="wlMsg2" style="margin-top:12px"><span id="wlIcon2"></span><span id="wlText2"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <a class="brand" href="#top" style="margin-bottom:6px"><span class="mark" style="width:26px;height:26px"><img class="logo-img" alt="Nodalis"></span>NODALIS</a>
+      <small>MADE WITH CARE BY HARSHA VARTHAN E P &middot; ONE LOCAL-FIRST APP FOR NOTES, GRAPH, CANVAS AND PLANNING.</small>
+    </div>
+    <div class="foot-links">
+      <a href="#features">FEATURES</a>
+      <a href="#demo">DEMO</a>
+      <a href="#engine">ENGINE</a>
+      <a href="#diary">BUILD LOG</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://harshavarthanep.github.io/apps" target="_blank" rel="noopener">MORE APPS</a>
+    </div>
+    <div class="foot-social">
+      <a class="icon-btn" href="https://harshavarthanep.github.io/apps" target="_blank" rel="noopener" aria-label="More apps by Harsha"><svg><use href="#i-grid"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ FLOATING WAITLIST BAR ============ -->
+<div class="float-bar" id="floatBar">
+  <div class="float-in">
+    <b>JOIN THE WAITLIST</b>
+    <button class="join" onclick="focusForm()">OPEN FORM</button>
+    <button class="dismiss" onclick="dismissFloat()" aria-label="Dismiss"><svg><use href="#i-x"/></svg></button>
+  </div>
+</div>
+
+<!-- ============ WAITLIST SUCCESS MODAL ============ -->
+<div class="modal-wrap" id="wlModal" onclick="if(event.target===this)closeWlModal()">
+  <div class="modal-box" id="wlModalBox">
+    <button class="modal-close" onclick="closeWlModal()" aria-label="Close"><svg style="width:13px;height:13px"><use href="#i-x"/></svg></button>
+    <div class="modal-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
+    <div class="modal-eyebrow">// WELCOME ABOARD</div>
+    <h3 class="modal-title">You're in the<br>community now.</h3>
+    <p class="modal-copy">That's a real step, not a small one &mdash; you just joined a growing group of people who'd rather build the future of note-taking than wait for someone else to. <b id="wlModalEmail"></b> is officially on the list.</p>
+    <div class="modal-pos"><b id="wlModalPos">&mdash;</b><span>YOUR SPOT IN LINE</span></div>
+    <div class="modal-actions">
+      <button class="btn btn-line" style="flex:1" onclick="closeWlModal()">CONTINUE EXPLORING</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ COMMAND PALETTE ============ -->
+<div class="pal" id="pal" onclick="if(event.target===this)closePal()">
+  <div class="palbox">
+    <div class="palin">
+      <svg><use href="#i-search"/></svg>
+      <input id="palInput" placeholder="search features and sections..." autocomplete="off" spellcheck="false">
+      <span class="kbd">ESC</span>
+    </div>
+    <div class="palres" id="palRes"></div>
+    <div class="palfoot"><span>&uarr;&darr; NAVIGATE</span><span>&crarr; OPEN</span><span>ESC CLOSE</span></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   NODALIS WAITLIST SITE — configuration
+   ------------------------------------------------------------
+   Paste your deployed Google Apps Script Web App URL below —
+   see SETUP.md for the full walkthrough. Until you do, the form
+   falls back to opening a pre-written email instead.
+============================================================ */
+const WAITLIST_ENDPOINT = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+/* Where a fallback mailto: is addressed if no endpoint is configured yet. */
+const NOTIFY_EMAIL = "h24creationz@gmail.com";
+/* The real Nodalis app icon, inlined so the site is still one self-contained
+   file — used for the nav mark, the mobile menu, the footer and the boot
+   screen (see paintLogos() below). */
+const NODALIS_LOGO_URI = "data:image/png;base64,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";
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ico = (id, cls) => '<svg class="' + (cls||'') + '"><use href="#' + id + '"/></svg>';
+
+/* Paints the real Nodalis app icon into every .logo-img slot (nav, mobile
+   menu, footer, boot screen). If the embedded image is ever unreadable, we
+   swap in the inline SVG node mark rather than leaving an empty square —
+   and say so in the console so it's diagnosable instead of silent. */
+function paintLogos(){
+  $$('.logo-img').forEach(img=>{
+    img.onerror = ()=>{
+      const holder = img.parentElement;
+      if(!holder || holder.dataset.fellBack) return;
+      holder.dataset.fellBack = '1';
+      holder.classList.add('logo-fallback');
+      holder.innerHTML = '<svg><use href="#i-node"/></svg>';
+      console.error('[Nodalis] Logo image failed to render — using the SVG mark instead.');
+    };
+    if(img.getAttribute('src') !== NODALIS_LOGO_URI) img.src = NODALIS_LOGO_URI;
+  });
+}
+paintLogos();
+
+function typeText(el, text, speed){
+  if(!el) return;
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent = text; return; }
+  el.classList.add('typecursor');
+  el.textContent = '';
+  let i = 0;
+  (function tick(){
+    el.textContent = text.slice(0, i);
+    i++;
+    if(i <= text.length) setTimeout(tick, speed || 26);
+    else el.classList.remove('typecursor');
+  })();
+}
+
+function jump(sel){ const el = $(sel); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+function focusForm(){ jump('#access'); setTimeout(()=>{ const i = $('#wlEmail'); if(i) i.focus(); }, 400); }
+function toast(msg, ms){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'), ms||2600); }
+
+/* ---------------- dark / light ----------------
+   Single source of truth: applyMode() sets the real site-wide theme.
+   The nav moon/sun button AND the LIGHT/DARK buttons in the
+   "Personalize" section both call this, so they can never disagree. */
+function applyMode(mode){
+  document.documentElement.classList.toggle('dark', mode === 'dark');
+  try{ localStorage.setItem('ndw-mode', mode); }catch(e){}
+  paintModeIcon();
+  labMode = mode;
+  if(typeof renderThemeRow === 'function') renderThemeRow();
+  if(typeof currentStyle !== 'undefined') applyAccent(currentStyle);
+}
+/* Sets the real, page-wide --accent colour to match a chosen theme card —
+   this is what makes "Personalize" actually do something, not just preview
+   swatches. Persisted so a return visit keeps the same accent. */
+function applyAccent(styleKey){
+  if(typeof STYLES === 'undefined') return;
+  const s = STYLES.find(x=>x.key===styleKey) || STYLES[0];
+  const acc = (s[labMode] || s.light).accent;
+  document.documentElement.style.setProperty('--accent', acc);
+  currentStyle = s.key;
+  try{ localStorage.setItem('ndw-style', s.key); }catch(e){}
+}
+function toggleMode(){ applyMode(document.documentElement.classList.contains('dark') ? 'light' : 'dark'); }
+function paintModeIcon(){ $('#modeBtn').innerHTML = document.documentElement.classList.contains('dark') ? ico('i-sun') : ico('i-moon'); }
+
+/* ---------------- mobile nav drawer ---------------- */
+function openMnav(){ $('#mnav').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeMnav(){ $('#mnav').classList.remove('open'); document.body.style.overflow=''; }
+
+/* ---------------- boot / loading screen ---------------- */
+(function boot(){
+  const steps = ['INITIALIZING VAULT…','LOADING GRAPH ENGINE…','MOUNTING LOCAL FILES…','SYSTEM: READY'];
+  let i = 0;
+  const label = document.getElementById('bootLabel');
+  const iv = setInterval(()=>{
+    i++;
+    if(label && i < steps.length) label.textContent = steps[i];
+    if(i >= steps.length - 1) clearInterval(iv);
+  }, 260);
+  let typed = false;
+  const hide = ()=>{
+    const b = document.getElementById('bootScreen');
+    if(b) b.classList.add('hide');
+    if(!typed){ typed = true; typeText(document.getElementById('heroSub'), 'BUILD: LOCAL-FIRST  //  REF: 001', 24); }
+  };
+  setTimeout(hide, 1150);
+  addEventListener('load', ()=>setTimeout(hide, 300));
+  setTimeout(hide, 2600); // failsafe — never block the page for long
+})();
+
+/* ---------------- reveal-on-scroll for each section ---------------- */
+(function wireReveal(){
+  const targets = $$('.sec, .engine');
+  if(!('IntersectionObserver' in window) || !targets.length) return;
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){ en.target.classList.add('reveal-in'); io.unobserve(en.target); }
+    });
+  }, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+  targets.forEach(el=>{ el.classList.add('reveal'); io.observe(el); });
+  // Failsafe: never leave a section invisible if something stops it being observed as visible.
+  setTimeout(()=>targets.forEach(el=>el.classList.add('reveal-in')), 4000);
+})();
+
+/* ---------------- floating waitlist bar ---------------- */
+function dismissFloat(){ $('#floatBar').classList.remove('show'); try{ sessionStorage.setItem('ndw-float-dismissed','1'); }catch(e){} }
+addEventListener('scroll', ()=>{
+  let dismissed = false; try{ dismissed = sessionStorage.getItem('ndw-float-dismissed')==='1'; }catch(e){}
+  const heroBottom = $('#features') ? $('#features').offsetTop - 200 : 600;
+  $('#floatBar').classList.toggle('show', !dismissed && scrollY > heroBottom);
+}, {passive:true});
+
+/* ---------------- schematic mini graph ---------------- */
+(function drawSchemGraph(){
+  const g = $('#schemGraph'); if(!g) return;
+  const hub = {x:339, y:148};
+  const sats = [[315,120],[360,125],[300,160],[365,168],[330,180]];
+  let s = '';
+  sats.forEach(p=>{ s += '<line class="gedge" x1="'+hub.x+'" y1="'+hub.y+'" x2="'+p[0]+'" y2="'+p[1]+'"/>'; });
+  s += '<circle class="gnode hub" cx="'+hub.x+'" cy="'+hub.y+'" r="4"/>';
+  sats.forEach(p=>{ s += '<circle class="gnode" cx="'+p[0]+'" cy="'+p[1]+'" r="2.6"/>'; });
+  g.innerHTML = s;
+})();
+
+/* ---------------- demo tabs ---------------- */
+const DEMO_TABS = [
+  {k:'home', l:'HOME', i:'i-home'},
+  {k:'graph', l:'GRAPH', i:'i-graph'},
+  {k:'canvas', l:'CANVAS', i:'i-canvas'},
+  {k:'board', l:'BOARD', i:'i-board'},
+  {k:'cal', l:'CALENDAR', i:'i-cal'},
+  {k:'matrix', l:'MATRIX', i:'i-matrix'},
+];
+function renderDemoTabs(){
+  $('#demoTabs').innerHTML = DEMO_TABS.map(t=>
+    '<button class="demo-tab' + (t.k==='home'?' on':'') + '" data-demo="' + t.k + '">' + ico(t.i) + t.l + '</button>'
+  ).join('');
+}
+function showDemo(k){
+  $$('.dscreen').forEach(s=>s.classList.toggle('on', s.dataset.s===k));
+  $$('.demo-tab').forEach(t=>t.classList.toggle('on', t.dataset.demo===k));
+  if(k==='graph') drawGraph('#gSvg', 34, true);
+  if(k==='home') animateHomeCounters();
+}
+document.addEventListener('click', e=>{
+  const t = e.target.closest('[data-demo]');
+  if(t) showDemo(t.dataset.demo);
+});
+renderDemoTabs();
+
+/* ---------------- knowledge graph illustration (clickable on the live demo) ---------------- */
+const NOTE_TITLES = ['Daily review','Reading list','Project Nodalis','Meeting notes','Recipe ideas','Book highlights','Travel plan 2026','Interview prep','Garden log','Habit tracker','Article drafts','Research notes','Bug list','Feature ideas','Old journal','Favourite quotes','Movie list','Workout log','Onboarding draft','Weekly retro','Idea inbox','Client notes','Course outline','Budget 2026','House hunting','Recipe: ramen','Talk proposal','Book: Atomic Habits','Sprint plan','Contacts'];
+/* layoutGraph reads the ACTUAL rendered size of the box the SVG sits in and
+   sets the viewBox to match it exactly. Without this, a fixed viewBox (e.g.
+   600x320) letterboxes inside a wider/shorter container — that's what was
+   causing the graph to look tiny with empty space around it on desktop. */
+function layoutGraph(svg, n){
+  const wrap = svg.closest('.gwrap') || svg.parentElement;
+  const rect = wrap.getBoundingClientRect();
+  const W = Math.max(240, Math.round(rect.width)), H = Math.max(160, Math.round(rect.height));
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  const m = Math.min(W, H);
+  const hub = {x:W/2, y:H/2, r:Math.max(6, m*0.032), hub:true, title:'Home.md'};
+  const nodes = [hub];
+  for(let i=0;i<n;i++){
+    const a = (i/n)*Math.PI*2 + (Math.random()*0.25 - 0.125);
+    const rad = m*0.17 + (i%4)*(m*0.105) + Math.random()*(m*0.05);
+    nodes.push({x:hub.x+Math.cos(a)*rad, y:hub.y+Math.sin(a)*rad, r:m*0.011+Math.random()*m*0.009, hub:false, title:NOTE_TITLES[i%NOTE_TITLES.length]});
+  }
+  const edges = [];
+  for(let i=1;i<nodes.length;i++){
+    edges.push([0,i]);
+    if(Math.random()>.6 && i>2) edges.push([i, 1 + Math.floor(Math.random()*(nodes.length-2))]);
+  }
+  let s = '';
+  edges.forEach((e,ei)=>{
+    const a = nodes[e[0]], b = nodes[e[1]];
+    s += '<line class="gedge" data-e="'+ei+'" data-a="'+e[0]+'" data-b="'+e[1]+'" x1="'+a.x.toFixed(1)+'" y1="'+a.y.toFixed(1)+'" x2="'+b.x.toFixed(1)+'" y2="'+b.y.toFixed(1)+'" opacity="'+(e[0]===0?1:.5)+'"/>';
+  });
+  nodes.forEach((nd,i)=>{ s += '<circle class="gnode'+(nd.hub?' hub':'')+'" data-i="'+i+'" cx="'+nd.x.toFixed(1)+'" cy="'+nd.y.toFixed(1)+'" r="'+nd.r.toFixed(1)+'"/>'; });
+  svg.innerHTML = s;
+  svg._nodes = nodes; svg._edges = edges;
+}
+const GRAPH_REGISTRY = [];
+let graphResizeTimer;
+addEventListener('resize', ()=>{
+  clearTimeout(graphResizeTimer);
+  graphResizeTimer = setTimeout(()=>{
+    GRAPH_REGISTRY.forEach(svg=>{ if(svg.isConnected) layoutGraph(svg, +svg.dataset.n || 30); });
+  }, 200);
+});
+function drawGraph(sel, n, interactive){
+  const svg = $(sel); if(!svg) return;
+  svg.dataset.n = n;
+  if(!svg.dataset.registered){ GRAPH_REGISTRY.push(svg); svg.dataset.registered = '1'; }
+  if(!svg.dataset.drawn){ layoutGraph(svg, n); svg.dataset.drawn = '1'; }
+  if(interactive && !svg.dataset.wired){
+    svg.dataset.wired = '1';
+    const wrap = svg.closest('.gwrap');
+    const tip = wrap ? wrap.querySelector('.gtip') : null;
+    const hint = document.getElementById('graphHint');
+    svg.addEventListener('click', e=>{
+      const c = e.target.closest('.gnode'); if(!c) return;
+      const i = +c.dataset.i, nd = svg._nodes[i];
+      $$('.gnode', svg).forEach(el=>el.classList.toggle('active', el===c));
+      $$('.gedge', svg).forEach(el=>el.classList.toggle('active', +el.dataset.a===i || +el.dataset.b===i));
+      if(hint) hint.textContent = (nd.hub ? 'HOME.MD — VAULT ROOT' : nd.title.toUpperCase() + '.MD');
+      toast((nd.hub ? 'Opened Home.md' : 'Opened “'+nd.title+'.md”') + ' — this is a live demo, not your real vault.');
+    });
+    svg.addEventListener('pointermove', e=>{
+      const c = e.target.closest('.gnode'); if(!tip) return;
+      if(!c){ tip.classList.remove('show'); return; }
+      const i = +c.dataset.i, nd = svg._nodes[i];
+      const box = svg.getBoundingClientRect(), wb = wrap.getBoundingClientRect();
+      const pt = svg.createSVGPoint(); pt.x = nd.x; pt.y = nd.y;
+      const m = svg.getScreenCTM(); const sp = pt.matrixTransform(m);
+      tip.style.left = (sp.x - wb.left) + 'px';
+      tip.style.top = (sp.y - wb.top) + 'px';
+      tip.textContent = nd.hub ? 'Home.md' : nd.title + '.md';
+      tip.classList.add('show');
+    });
+    svg.addEventListener('pointerleave', ()=>{ if(tip) tip.classList.remove('show'); });
+  }
+}
+drawGraph('#gSvgHero', 46, false);
+
+/* ---------------- calendar demo ---------------- */
+function buildCal(sel, todayN){
+  const el = $(sel); if(!el) return;
+  const dows = ['S','M','T','W','T','F','S'];
+  let h = dows.map(d=>'<div class="dow">'+d+'</div>').join('');
+  const lead = 3, days = 30;
+  for(let i=0;i<lead;i++) h += '<div class="cell mute"></div>';
+  for(let d=1; d<=days; d++){
+    const isToday = d===todayN;
+    const tasks = (d%6===0 || d===todayN+2) ? (1+(d%3)) : 0;
+    const dot = tasks ? '<span class="n">'+tasks+'</span>' : '';
+    h += '<div class="cell'+(isToday?' today':'')+'" data-day="'+d+'" data-tasks="'+tasks+'">'+d+dot+'</div>';
+  }
+  el.innerHTML = h;
+}
+buildCal('#calDemo', 14);
+
+/* ---------------- home dashboard counters (animate the first time it's shown) ---------------- */
+function animateHomeCounters(){
+  const stage = document.querySelector('.dscreen[data-s="home"]');
+  if(!stage || stage.dataset.animated) return; stage.dataset.animated = '1';
+  $$('.hcard .hv', stage).forEach(el=>{
+    const raw = el.textContent.trim();
+    const isK = /k$/i.test(raw);
+    const target = parseFloat(raw.replace(/[^0-9.]/g,'')) || 0;
+    const dur = 700, start = performance.now();
+    (function step(now){
+      const p = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = isK ? (target * eased).toFixed(1) + 'K' : Math.round(target * eased).toString();
+      if(p < 1) requestAnimationFrame(step); else el.textContent = raw;
+    })(start);
+  });
+  const ring = stage.querySelector('.ring .fg');
+  if(ring){
+    const target = ring.getAttribute('stroke-dashoffset');
+    const full = (ring.getAttribute('stroke-dasharray') || '').split(' ')[0] || '163.4';
+    ring.style.transition = 'none';
+    ring.setAttribute('stroke-dashoffset', full);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      ring.style.transition = 'stroke-dashoffset 1s cubic-bezier(.2,.8,.3,1)';
+      ring.setAttribute('stroke-dashoffset', target);
+    }));
+  }
+}
+animateHomeCounters(); // the home tab is the one shown by default
+
+/* ---------------- calendar: tap a day ---------------- */
+document.addEventListener('click', e=>{
+  const cell = e.target.closest('#calDemo .cell'); if(!cell || cell.classList.contains('mute')) return;
+  const day = cell.dataset.day, n = +cell.dataset.tasks || 0;
+  toast(n ? ('AUG ' + day + ': ' + n + ' task' + (n>1?'s':'') + ' due — demo data, rendered locally.') : ('AUG ' + day + ': nothing scheduled yet.'));
+});
+
+/* ---------------- priority matrix: tap to check off ---------------- */
+document.addEventListener('click', e=>{
+  const row = e.target.closest('#stage .mrow'); if(!row) return;
+  const done = row.classList.toggle('done');
+  const chk = row.querySelector('.mchk');
+  if(chk) chk.innerHTML = done ? ico('i-check') : '';
+});
+
+/* ---------------- board: tap a card to advance it to the next column ---------------- */
+function colName(col){
+  const h4 = col.querySelector('h4'); if(!h4) return '';
+  const t = Array.from(h4.childNodes).find(n=>n.nodeType===3);
+  return t ? t.textContent.trim() : h4.textContent.trim();
+}
+function updateBoardCounts(){
+  $$('#stage .kcol').forEach(col=>{
+    const b = col.querySelector('h4 b');
+    if(b) b.textContent = col.querySelectorAll('.kcard').length;
+  });
+}
+document.addEventListener('click', e=>{
+  const card = e.target.closest('#stage .kcard'); if(!card) return;
+  const col = card.closest('.kcol'); const cols = $$('#stage .kcol');
+  const idx = cols.indexOf(col); if(idx<0) return;
+  const next = cols[(idx + 1) % cols.length];
+  card.style.transition = 'opacity .15s'; card.style.opacity = '0';
+  setTimeout(()=>{
+    next.querySelector('.kbody').appendChild(card);
+    card.style.opacity = '1';
+    updateBoardCounts();
+    toast('Moved to ' + colName(next) + '.');
+  }, 150);
+});
+
+/* ---------------- canvas: drag the sticky cards around ---------------- */
+(function wireCanvasDrag(){
+  let active = null, offX = 0, offY = 0, rect = null;
+  document.addEventListener('pointerdown', e=>{
+    const card = e.target.closest('.cvcard'); if(!card) return;
+    const wrap = card.closest('.cvv'); if(!wrap) return;
+    active = card; rect = wrap.getBoundingClientRect();
+    const cr = card.getBoundingClientRect();
+    offX = e.clientX - cr.left; offY = e.clientY - cr.top;
+    try{ card.setPointerCapture(e.pointerId); }catch(err){}
+    card.style.zIndex = 5;
+  });
+  document.addEventListener('pointermove', e=>{
+    if(!active) return;
+    let x = e.clientX - rect.left - offX, y = e.clientY - rect.top - offY;
+    x = Math.max(4, Math.min(x, rect.width - active.offsetWidth - 4));
+    y = Math.max(4, Math.min(y, rect.height - active.offsetHeight - 4));
+    active.style.left = x + 'px'; active.style.top = y + 'px';
+  });
+  ['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev, ()=>{
+    if(active) active.style.zIndex = '';
+    active = null;
+  }));
+})();
+
+/* ---------------- personalize / theme cards ---------------- */
+const STYLES = [
+  {key:'nodalis', name:'NODALIS', desc:'Warm paper, one violet accent, gentle shadows.',
+    light:{bg:'#f4efe6', panel:'#f7f2e7', accent:'#6c5ce7'}, dark:{bg:'#101018', panel:'#16161f', accent:'#6c5ce7'}},
+  {key:'notion', name:'NOTION', desc:'Near-neutral, hairline borders, almost no elevation.',
+    light:{bg:'#ffffff', panel:'#f7f7f5', accent:'#2f7cd6'}, dark:{bg:'#191919', panel:'#1f1f1f', accent:'#2f7cd6'}},
+  {key:'nothing', name:'NOTHING', desc:'Monochrome, dot-matrix, one red for emphasis.',
+    light:{bg:'#f5f4f1', panel:'#ffffff', accent:'#d71921'}, dark:{bg:'#000000', panel:'#0a0a0a', accent:'#d71921'}},
+];
+let labMode = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+let currentStyle = (function(){ try{ return localStorage.getItem('ndw-style') || 'nodalis'; }catch(e){ return 'nodalis'; } })();
+function renderThemeRow(){
+  $('#themeRow').innerHTML = STYLES.map(s=>{
+    const t = s[labMode];
+    return '<div class="theme-card' + (s.key===currentStyle?' on':'') + '" data-style="'+s.key+'">' +
+      '<div class="tc-top" style="background:'+t.bg+'"><i style="background:linear-gradient(135deg,'+t.panel+' 55%,'+t.accent+' 55%)"></i></div>' +
+      '<div class="tc-body"><b>'+s.name+'</b><span>'+s.desc+'</span></div></div>';
+  }).join('');
+  $('#modeToggle').innerHTML =
+    '<button class="modebtn' + (labMode==='light'?' on':'') + '" data-mode="light">LIGHT</button>' +
+    '<button class="modebtn' + (labMode==='dark'?' on':'') + '" data-mode="dark">DARK</button>';
+}
+document.addEventListener('click', e=>{
+  const tc = e.target.closest('[data-style]');
+  if(tc){ applyAccent(tc.dataset.style); renderThemeRow(); toast(tc.querySelector('b').textContent + ' accent applied — try the buttons and demo tabs.'); }
+  const mo = e.target.closest('[data-mode]');
+  if(mo){ applyMode(mo.dataset.mode); }
+});
+renderThemeRow();
+applyAccent(currentStyle);
+
+/* ---------------- build-log "app screenshot" mockups ----------------
+   No real product screenshots were supplied, so each entry gets a small,
+   stylised mock-up of that specific feature (a fake browser/app chrome
+   with a sidebar and a live-ish main pane) instead of one lonely icon
+   floating in a lot of empty space. */
+function appShotShell(mainHtml, activeIdx){
+  const widths = [70, 46, 58, 38, 50];
+  const side = widths.map((w,i)=>'<i class="'+(i===activeIdx?'on':'')+'" style="width:'+w+'%"></i>').join('');
+  return '<div class="as-top"><span class="as-dot"></span><span class="as-dot"></span><span class="as-dot"></span><span class="as-title">nodalis — local vault</span></div>' +
+    '<div class="as-body"><div class="as-side">'+side+'</div><div class="as-main">'+mainHtml+'</div></div>';
+}
+function renderAppShot(icon, idx){
+  let main;
+  if(icon === 'i-graph'){
+    main = '<svg id="entryGraphSvg" style="width:100%;height:100%;display:block"></svg>';
+  } else if(icon === 'i-canvas'){
+    main =
+      '<div class="as-sticky" style="left:10%;top:14%;transform:rotate(-3deg)"><b>IDEA</b>Frame + drag whole clusters</div>' +
+      '<div class="as-sticky" style="left:42%;top:42%;transform:rotate(2deg)"><b>TODO</b>Multi-select cards</div>' +
+      '<div class="as-sticky" style="left:16%;top:62%;transform:rotate(-1.5deg)"><b>NOTE</b>Canvas, not a mind-map</div>';
+  } else if(icon === 'i-eye'){
+    main = '<div class="as-photo"></div><div class="as-scanline"></div>' +
+      '<svg style="width:26px;height:26px;position:absolute;right:14%;bottom:16%;opacity:.55" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><circle cx="10" cy="10" r="6"/><path d="M20 20l-4.5-4.5" stroke-linecap="round"/></svg>';
+  } else if(icon === 'i-palette'){
+    main = '<div class="as-swatch" style="left:16%;top:26%;background:#6c5ce7"></div>' +
+      '<div class="as-swatch" style="left:41%;top:26%;background:#2f7cd6"></div>' +
+      '<div class="as-swatch" style="left:66%;top:26%;background:#d71921"></div>' +
+      '<div style="position:absolute;left:14%;right:14%;bottom:22%;height:1.5px;background:var(--line-soft)"></div>' +
+      '<div style="position:absolute;left:14%;bottom:26%;font-size:8px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase">NODALIS &nbsp; NOTION &nbsp; NOTHING</div>';
+  } else {
+    main = '<svg style="width:58px;height:58px;position:absolute;right:14px;bottom:14px;opacity:.4"><use href="#'+icon+'"/></svg>';
+  }
+  return appShotShell(main, (idx||0) % 5);
+}
+
+/* ---------------- build log episode pager ---------------- */
+const ENTRIES = [
+  {ep:'EP_01', date:'AUG 2026', status:'SHIPPED', title:'Knowledge graph engine rebuilt', icon:'i-graph',
+    desc:'Faster layout, smoother zoom, and orphan notes now surface on their own tab — the graph engine got a from-scratch rebuild this month.',
+    hashes:['#KNOWLEDGEGRAPH','#PERFORMANCE','#LOCALFIRST'], build:'REV_04_KG12', read:'2 MIN'},
+  {ep:'EP_02', date:'JUL 2026', status:'SHIPPED', title:'Canvas multi-select & frames', icon:'i-canvas',
+    desc:'Group cards into named frames and drag whole clusters at once — the canvas finally handles more than a handful of sticky notes.',
+    hashes:['#CANVAS','#FRAMES','#MULTISELECT'], build:'REV_03_CV07', read:'2 MIN'},
+  {ep:'EP_03', date:'JUN 2026', status:'SHIPPED', title:'On-device OCR search', icon:'i-eye',
+    desc:'Search text inside images and scans, computed entirely in the browser — nothing you upload for it ever leaves the device.',
+    hashes:['#OCR','#SEARCH','#PRIVACY'], build:'REV_02_OCR3', read:'1 MIN'},
+  {ep:'EP_04', date:'NOW', status:'IN PROGRESS', title:'The "Nothing" theme', icon:'i-palette',
+    desc:'Monochrome, dot-matrix, one red for emphasis — in testing ahead of the next invite batch, alongside a matching light mode.',
+    hashes:['#THEMES','#NOTHING','#INPROGRESS'], build:'REV_05_TH01', read:'1 MIN'},
+];
+let entryIdx = 0;
+function renderEntry(){
+  const e = ENTRIES[entryIdx];
+  $('#entryEp').textContent = e.ep;
+  $('#entryDate').textContent = 'RECORDED: ' + e.date;
+  $('#entryStatus').innerHTML = '<i></i>' + e.status;
+  $('#entryStatus').style.borderColor = e.status==='SHIPPED' ? 'var(--green)' : 'var(--red)';
+  $('#entryStatus').style.color = e.status==='SHIPPED' ? 'var(--green)' : 'var(--red)';
+  $('#entryStatus i').style.background = e.status==='SHIPPED' ? 'var(--green)' : 'var(--red)';
+  $('#entryTitle').textContent = e.title;
+  $('#entryDesc').textContent = e.desc;
+  $('#entryHashes').innerHTML = e.hashes.map(h=>'<span class="hashtag">'+h+'</span>').join('');
+  $('#entryLine').textContent = 'BUILD: ' + e.build + '  |  READ: ' + e.read;
+  $('#entryShot').innerHTML = renderAppShot(e.icon, entryIdx);
+  if(e.icon === 'i-graph') drawGraph('#entryGraphSvg', 16, false);
+  renderEntryNav();
+}
+function renderEntryNav(){
+  let h = '<button class="enavbtn" data-nav="prev">&#9664; PREV</button>';
+  ENTRIES.forEach((e,i)=>{ h += '<button class="enavbtn'+(i===entryIdx?' on':'')+'" data-nav="'+i+'">'+e.ep.replace('EP_','')+'</button>'; });
+  h += '<button class="enavbtn" data-nav="next">NEXT &#9654;</button>';
+  $('#entryNav').innerHTML = h;
+}
+$('#entryNav') && document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-nav]'); if(!b) return;
+  const v = b.dataset.nav;
+  if(v==='prev') entryIdx = (entryIdx - 1 + ENTRIES.length) % ENTRIES.length;
+  else if(v==='next') entryIdx = (entryIdx + 1) % ENTRIES.length;
+  else entryIdx = +v;
+  renderEntry();
+});
+renderEntry();
+
+/* ---------------- command palette ---------------- */
+const PAL_ITEMS = [
+  {t:'FEATURE GRID', s:'Everything Nodalis ships with', i:'i-grid', go:'#features'},
+  {t:'KNOWLEDGE GRAPH DEMO', s:'Live graph of every link', i:'i-graph', go:'#demo'},
+  {t:'THE ENGINE', s:'Local-first architecture, explained', i:'i-lock', go:'#engine'},
+  {t:'BUILD LOG', s:'What shipped recently', i:'i-bolt', go:'#diary'},
+  {t:'PERSONALIZE', s:'Nodalis / Notion / Nothing themes', i:'i-palette', go:'#personalize'},
+  {t:'PLATFORMS', s:'Where Nodalis runs', i:'i-globe', go:'#platforms'},
+  {t:'FAQ', s:'Common questions', i:'i-info', go:'#faq'},
+  {t:'JOIN THE WAITING LIST', s:'Reserve your spot', i:'i-mail', go:'#access'},
+];
+let palSel = 0, palFiltered = PAL_ITEMS;
+function openPal(){ $('#pal').classList.add('open'); $('#palInput').value=''; palFiltered = PAL_ITEMS; palSel = 0; renderPal(); setTimeout(()=>$('#palInput').focus(), 10); }
+function closePal(){ $('#pal').classList.remove('open'); }
+function renderPal(){
+  $('#palRes').innerHTML = palFiltered.map((it,i)=>
+    '<button class="palit' + (i===palSel?' sel':'') + '" data-i="' + i + '">' + ico(it.i) +
+      '<span><span class="pt">' + esc(it.t) + '</span><span class="ps">' + esc(it.s) + '</span></span></button>'
+  ).join('') || '<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px">NO MATCHES</div>';
+}
+$('#palInput').addEventListener('input', e=>{
+  const q = e.target.value.toLowerCase().trim();
+  palFiltered = q ? PAL_ITEMS.filter(it => (it.t+' '+it.s).toLowerCase().includes(q)) : PAL_ITEMS;
+  palSel = 0; renderPal();
+});
+$('#palRes').addEventListener('click', e=>{
+  const b = e.target.closest('.palit'); if(!b) return;
+  const it = palFiltered[+b.dataset.i]; if(it){ closePal(); jump(it.go); }
+});
+addEventListener('keydown', e=>{
+  if(e.key==='Escape' && $('#wlModal').classList.contains('open')){ closeWlModal(); return; }
+  if(e.key==='Escape' && $('#mnav').classList.contains('open')){ closeMnav(); return; }
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); $('#pal').classList.contains('open') ? closePal() : openPal(); return; }
+  if(!$('#pal').classList.contains('open')) return;
+  if(e.key==='Escape'){ closePal(); return; }
+  if(e.key==='ArrowDown'){ e.preventDefault(); palSel = Math.min(palSel+1, palFiltered.length-1); renderPal(); }
+  if(e.key==='ArrowUp'){ e.preventDefault(); palSel = Math.max(palSel-1, 0); renderPal(); }
+  if(e.key==='Enter'){ const it = palFiltered[palSel]; if(it){ closePal(); jump(it.go); } }
+});
+
+/* ============================================================
+   WAITLIST
+   Order of attempts:
+   1. Google Apps Script endpoint (stores in a Sheet, emails you,
+      and answers "duplicate" if the address is already listed)
+   2. If no endpoint is configured, open a pre-written email
+   A local record also gives instant "already on the list" feedback.
+   Both forms on the page (hero capture + "stay in touch" panel)
+   share this same logic.
+============================================================ */
+/* ---------------- celebratory "you're in" modal ---------------- */
+function launchConfetti(container){
+  if(!container) return;
+  for(let i=0;i<14;i++){
+    const d = document.createElement('span');
+    d.className = 'confetti-dot';
+    const ang = Math.random()*Math.PI*2, dist = 40 + Math.random()*55;
+    d.style.setProperty('--dx', (Math.cos(ang)*dist).toFixed(1) + 'px');
+    d.style.setProperty('--dy', (Math.sin(ang)*dist - 30).toFixed(1) + 'px');
+    d.style.animationDelay = (Math.random()*0.18).toFixed(2) + 's';
+    container.appendChild(d);
+    setTimeout(()=>d.remove(), 1400);
+  }
+}
+function openWlModal(email, position){
+  $('#wlModalEmail').textContent = email;
+  $('#wlModalPos').textContent = (position && Number(position) > 0) ? ('#' + position) : 'WELCOME';
+  $('#wlModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  launchConfetti($('#wlModalBox'));
+}
+function closeWlModal(){
+  $('#wlModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function seen(){ try{ return JSON.parse(localStorage.getItem('ndw-wl')||'[]'); }catch(e){ return []; } }
+function remember(m){ try{ const a = seen(); if(!a.includes(m)){ a.push(m); localStorage.setItem('ndw-wl', JSON.stringify(a)); } }catch(e){} }
+function wlMsgFor(boxId, iconId, textId, kind, html, diag){
+  const box = $('#'+boxId);
+  box.className = 'wl-msg show ' + kind;
+  $('#'+iconId).innerHTML = ico(kind==='ok' ? 'i-checkc' : (kind==='dup' ? 'i-info' : 'i-warn'));
+  $('#'+textId).innerHTML = html;
+  const d = $('#wlDiag');
+  if(d && boxId==='wlMsg'){
+    d.style.display = diag ? 'block' : 'none';
+    if(diag) $('#wlDiagText').textContent =
+      diag + '\n\nEndpoint: ' + (isConfigured() ? WAITLIST_ENDPOINT : '(not set — see SETUP.md)') +
+      '\n\nOpen that URL in a new tab with ?ping=1 on the end. A working deployment answers ' +
+      'with {"status":"pong",...}. Anything else (a sign-in page, "Script function not found", ' +
+      'an error page) means the deployment needs fixing — see SETUP.md.';
+  }
+  if(diag) console.warn('[Nodalis waitlist]', diag);
+}
+function isConfigured(){ return WAITLIST_ENDPOINT && WAITLIST_ENDPOINT.indexOf('PASTE_YOUR') === -1; }
+function mailtoFallback(email){
+  const subject = 'Nodalis waiting list — ' + email;
+  const body =
+    'Hello,\n\nPlease add this address to the Nodalis waiting list:\n\n' + email +
+    '\n\nRequested from the Nodalis site on ' + new Date().toLocaleString() + '.\n';
+  location.href = 'mailto:' + NOTIFY_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+function wlJsonp(email){
+  return new Promise(resolve=>{
+    const cb = 'ndwl' + Date.now() + Math.floor(Math.random()*9999);
+    let done = false, timer;
+    const finish = res => {
+      if(done) return; done = true;
+      clearTimeout(timer);
+      try{ delete window[cb]; }catch(err){ window[cb] = undefined; }
+      if(s.parentNode) s.remove();
+      resolve(res);
+    };
+    window[cb] = r => finish(r && r.status ? r : {status:'error', reason:'empty reply'});
+    const s = document.createElement('script');
+    s.src = WAITLIST_ENDPOINT + (WAITLIST_ENDPOINT.indexOf('?')>-1 ? '&' : '?') +
+      'callback=' + cb + '&email=' + encodeURIComponent(email) +
+      '&src=' + encodeURIComponent(location.hostname || 'local') + '&t=' + Date.now();
+    s.onerror = ()=>finish({status:'error', reason:'script blocked or endpoint unreachable'});
+    document.body.appendChild(s);
+    timer = setTimeout(()=>finish({status:'error', reason:'no reply in 9s — the endpoint returned a page instead of JSONP (usually: access is not set to "Anyone", or the deployment was not updated to a new version)'}), 9000);
+  });
+}
+function wlBlindPost(email){
+  return fetch(WAITLIST_ENDPOINT, {
+    method:'POST', mode:'no-cors', redirect:'follow',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify({email:email, src:(location.hostname||'local')})
+  }).then(()=>true).catch(()=>false);
+}
+async function submitWaitlist(email){
+  if(!isConfigured()) return {status:'nomail'};
+  const r = await wlJsonp(email);
+  if(r.status==='ok' || r.status==='duplicate') return r;
+  const posted = await wlBlindPost(email);
+  if(posted) return {status:'ok', blind:true, reason:r.reason};
+  return {status:'error', reason:r.reason || 'network error'};
+}
+async function handleWaitlistSubmit(emailInputId, boxId, iconId, textId, btnEl){
+  const input = $('#'+emailInputId), email = input.value.trim().toLowerCase();
+  const ok = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email);
+  input.classList.toggle('bad', !ok);
+  if(!ok){ wlMsgFor(boxId, iconId, textId, 'err','That address doesn’t look right — check for a typo and try again.'); input.focus(); return; }
+  if(seen().includes(email)){
+    wlMsgFor(boxId, iconId, textId, 'dup','<b>You’re already on the list.</b> This address was submitted from this device. Your invite will arrive at <b>' + esc(email) + '</b> — nothing more to do.');
+    return;
+  }
+  const origHtml = btnEl.innerHTML;
+  btnEl.disabled = true; btnEl.innerHTML = ico('i-clock','spin');
+  const res = await submitWaitlist(email);
+  btnEl.disabled = false; btnEl.innerHTML = origHtml;
+  if(res.status==='ok'){
+    remember(email);
+    wlMsgFor(boxId, iconId, textId, 'ok','<b>You’re on the list.</b> The invite goes to <b>' + esc(email) + '</b> when the next batch opens.',
+      res.blind ? 'Saved through the fallback POST (the JSONP reply did not come back, so duplicates could not be checked live). Reason: ' + (res.reason||'unknown') : '');
+    input.value = '';
+    openWlModal(email, res.count);
+  } else if(res.status==='duplicate'){
+    remember(email);
+    wlMsgFor(boxId, iconId, textId, 'dup','<b>Already on the list.</b> <b>' + esc(email) + '</b> was added on ' + esc(res.since || 'an earlier date') + '. Sit tight — the invite is coming.');
+  } else if(res.status==='nomail'){
+    remember(email);
+    wlMsgFor(boxId, iconId, textId, 'ok','<b>One more tap.</b> Your mail app is opening with the request written for you — press send and <b>' + esc(email) + '</b> joins the list.');
+    setTimeout(()=>mailtoFallback(email), 500);
+  } else {
+    wlMsgFor(boxId, iconId, textId, 'err','That didn’t go through. Try again in a moment, or email <b>' + NOTIFY_EMAIL + '</b> directly and you’ll be added by hand.', res.reason || 'unknown error');
+  }
+}
+const wlForm = $('#wlForm');
+if(wlForm) wlForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  handleWaitlistSubmit('wlEmail', 'wlMsg', 'wlIcon', 'wlText', $('#wlBtn'));
+});
+const wlBtn2 = $('#wlBtn2');
+if(wlBtn2) wlBtn2.addEventListener('click', ()=>{
+  handleWaitlistSubmit('wlEmail2', 'wlMsg2', 'wlIcon2', 'wlText2', wlBtn2);
+});
+
+/* ============================================================
+   BOOT
+============================================================ */
+paintModeIcon();
+</script>
+</body>
+</html>
